@@ -1,22 +1,50 @@
+abstract class Pet(val name: String, val age: Int){
+    var fed = false
+    var away = false
+    abstract fun eat() : String
+
+    fun feed() : String{
+
+        if (away){
+            println("вы не можете покормить убежавшее животное $name")
+            return "вы не можете покормить убежавшее животное"
+        }
+        if (fed){
+            away = true
+            println("ваше животное $name убежало")
+            return "ваше животное убежало"
+        }
+        fed = true
+        println("вы покормили $name")
+        return "вы покормили животное"
+    }
+    fun clean() : String{
+        fed = false
+        println("вы убрали за животным $name")
+        return "вы убрали за животным"
+    }
+}
+
+
 interface Flyable{
-    abstract fun fly()
+    fun fly()
 }
 interface Walkable{
-    abstract fun walk()
+    fun walk()
 }
 interface Swimable{
-    abstract fun swim()
+    fun swim()
 }
 interface Crawlable{
-    abstract fun crawl()
+    fun crawl()
 }
 interface Voiceable{
-    abstract fun voice()
+    fun voice()
 }
 
 
-class Dog(name: String, age: Int): Walkable, Swimable, Voiceable{
-    override fun walk(){
+class Dog(name: String, age: Int): Pet(name, age), Walkable, Swimable, Voiceable{
+    override fun walk() {
         println("walk")
     }
     override fun swim(){
@@ -25,9 +53,12 @@ class Dog(name: String, age: Int): Walkable, Swimable, Voiceable{
     override fun voice(){
         println("bark")
     }
+    override fun eat(): String{
+        return "eats dog food"
+    }
 }
 
-class Cat(name: String, age: Int): Walkable, Swimable, Voiceable, Crawlable{
+open class Cat(name: String, age: Int): Pet(name, age), Walkable, Swimable, Voiceable, Crawlable{
     override fun walk(){
         println("walk")
     }
@@ -35,14 +66,18 @@ class Cat(name: String, age: Int): Walkable, Swimable, Voiceable, Crawlable{
         println("water")
     }
     override fun voice(){
-        println("meow")
+        println("Meow meow meow!!!")
     }
     override fun crawl(){
         println("sneak")
     }
+    override fun eat(): String{
+        return "eats cat food"
+    }
+
 }
 
-class Parrot(name: String, age: Int): Flyable, Voiceable, Walkable{
+class Parrot(name: String, age: Int): Pet(name, age), Flyable, Voiceable, Walkable{
     override fun walk(){
         walk()
     }
@@ -50,23 +85,34 @@ class Parrot(name: String, age: Int): Flyable, Voiceable, Walkable{
         println("SKREEEEEEEEEEEEEEEEEEEECH")
     }
     override fun fly(){
-        print("fly")
+        println("fly")
     }
+    override fun eat(): String{
+        return "eats parrot food"
+    }
+
 }
 
-class Snake(name: String, age: Int): Voiceable, Crawlable{
+class Snake(name: String, age: Int): Pet(name, age), Voiceable, Crawlable{
     override fun voice(){
         println("hhssssssss")
     }
     override fun crawl(){
         println("sneak")
     }
+    override fun eat(): String{
+        return "eats snake food"
+    }
 }
 
-class Fish(name: String, age: Int): Swimable{
+class Fish(name: String, age: Int): Pet(name, age), Swimable{
     override fun swim() {
         println("swim")
     }
+    override fun eat(): String{
+        return "eats fish food"
+    }
+
 }
 
 
